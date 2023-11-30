@@ -9,17 +9,22 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return $"ARACHNOPHOBIA!";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            throw new NotImplementedException();
-        }
+        public override LevelEvent CreateEvent() => new ArachnophobiaEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        /// <summary>
+        /// Маленькие хорошие паучки
+        /// </summary>
+        /// <param name="newLevel"></param>
+        /// <param name="configs"></param>
+        /// <param name="currentRate"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
+            _enviroment.GenerateEnemiesEvent<SandSpiderAI>(newLevel, currentRate, 2.0f);
         }
     }
 }

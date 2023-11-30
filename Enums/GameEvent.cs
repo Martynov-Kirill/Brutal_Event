@@ -16,7 +16,7 @@
         WhoLetTheDogsOut,
         DidYouSeeHer,
         Tremors,
-        GoToRend,
+        GoToRent,
         Delivery,
         LetsFly,
         ReplaceItems,

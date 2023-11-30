@@ -1,7 +1,7 @@
-﻿using System;
-
+﻿using UnityEngine;
 using BrutalEvent.Models;
 using BrutalEvent.Services.Abstract;
+using Random = UnityEngine.Random;
 
 namespace BrutalEvent.Services.Events
 {
@@ -9,17 +9,21 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return $"EZ DELIVERY!";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            throw new NotImplementedException();
-        }
+        public override LevelEvent CreateEvent() => new DeliveryEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
+            var terminal = Object.FindObjectOfType<Terminal>();
+            int countItems = Random.Range(3, 9);
+            for (int i = 0; i < countItems; i++)
+            {
+                int item = Random.Range(0, 6);
+                terminal.orderedItemsFromTerminal.Add(item);
+            }
         }
     }
 }

@@ -51,7 +51,7 @@ namespace BrutalEvent.Services
                 EventEnum.WhoLetTheDogsOut => new WhoLetTheDogEvent(),
                 EventEnum.DidYouSeeHer => new DidYouSeeHerEvent(),
                 EventEnum.Tremors => new TremorsEvent(),
-                EventEnum.GoToRend => new GoToRendEvent(),
+                EventEnum.GoToRent => new GoToRentEvent(),
                 EventEnum.Delivery => new DeliveryEvent(),
                 EventEnum.LetsFly => new LetsFlyEvent(),
                 EventEnum.ReplaceItems => new ReplaceItemsEvent(),

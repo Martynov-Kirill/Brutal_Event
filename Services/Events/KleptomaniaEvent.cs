@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Runtime.InteropServices;
 using BrutalEvent.Models;
 using BrutalEvent.Services.Abstract;
 
@@ -9,17 +9,18 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return $"KLEPTOMANIA!";
         }
 
         public override LevelEvent CreateEvent()
         {
-            throw new NotImplementedException();
+            return new KleptomaniaEvent();
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
+            _enviroment.GenerateEnemiesEvent<HoarderBugAI>(newLevel,currentRate, 2.5f);
         }
     }
 }

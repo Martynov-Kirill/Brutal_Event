@@ -1,5 +1,4 @@
 ﻿using System;
-using BrutalEvent.Enums;
 using UnityEngine;
 
 namespace BrutalEvent.Services.Abstract

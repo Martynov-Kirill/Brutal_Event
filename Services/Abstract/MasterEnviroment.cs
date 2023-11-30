@@ -165,7 +165,8 @@ namespace BrutalEvent.Services.Abstract
             Configuration.mls.LogWarning($"|{new string('-', 26)}|");
         }
 
-        public SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate, float multiplier = 1)
+        public SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate, 
+            float multiplier = 1)
         {
             if (multiplier < 1 || multiplier > 3)
                 multiplier = 1;
@@ -176,11 +177,11 @@ namespace BrutalEvent.Services.Abstract
 
             newLevel.enemySpawnChanceThroughoutDay = _curveGenerator.CreateEnemySpawnCurve(
                 new[] { 0f, 1f * multiplier },
-                new[] { 0.4f + currentEventRate, 33f + currentEventRate * multiplier });
+                new[] { 0.4f, 33f + currentEventRate * multiplier });
 
             newLevel.outsideEnemySpawnChanceThroughDay = _curveGenerator.CreateEnemySpawnCurve(
                 new[] { 0f, -10f },
-                new[] { 0.8f + currentEventRate, 10f + currentEventRate });
+                new[] { 0.8f, 10f + currentEventRate });
 
             return newLevel;
         }

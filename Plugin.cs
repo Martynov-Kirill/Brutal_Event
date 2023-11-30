@@ -9,8 +9,6 @@ using UnityEngine;
 
 namespace BrutalEvent
 {
-    // TODO Review this file and update to your own requirements.
-
     [BepInPlugin(MyGUID, PluginName, VersionString)]
     public class Plugin : BaseUnityPlugin
     {
@@ -70,7 +68,7 @@ namespace BrutalEvent
                 ? _eventFactory.CreateEvent(EventEnum.None)
                 : _eventFactory.GetRandomEvent();
 
-            currentEvent.OnLoadNewLevel(ref newLevel, _config);
+            currentEvent.OnLoadNewLevel(ref newLevel, _config, currentEventRate);
             _masterEnviroment.SetupRateLimit(newLevel, _eventFactory.EventEnum, _config);
 
             // Оптимизация обработки врагов

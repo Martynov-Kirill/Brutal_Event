@@ -1,7 +1,6 @@
-﻿using System;
-
-using BrutalEvent.Models;
+﻿using BrutalEvent.Models;
 using BrutalEvent.Services.Abstract;
+using Object = UnityEngine.Object;
 
 namespace BrutalEvent.Services.Events
 {
@@ -9,17 +8,22 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return $"ITS A PLANE! NO ITS A FLY";
         }
 
         public override LevelEvent CreateEvent()
         {
-            throw new NotImplementedException();
+            return new LetsFlyEvent();
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            int item = 9;
+            Terminal val = Object.FindObjectOfType<Terminal>();
+            for (int i = 0; i < 5; i++)
+            {
+                val.orderedItemsFromTerminal.Add(item);
+            }
         }
     }
 }

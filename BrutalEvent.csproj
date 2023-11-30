@@ -90,7 +90,7 @@
     <Compile Include="Services\Events\ChaosEvent.cs" />
     <Compile Include="Services\Events\DeliveryEvent.cs" />
     <Compile Include="Services\Events\DidYouSeeHerEvent.cs" />
-    <Compile Include="Services\Events\GoToRendEvent.cs" />
+    <Compile Include="Services\Events\GoToRentEvent.cs" />
     <Compile Include="Services\Events\KleptomaniaEvent.cs" />
     <Compile Include="Services\Events\LandMineEvent.cs" />
     <Compile Include="Services\Events\LetsFlyEvent.cs" />

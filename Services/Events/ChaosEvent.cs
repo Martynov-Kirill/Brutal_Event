@@ -9,17 +9,21 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return $"CHAOS, LEAVE THIS MOON!";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            throw new NotImplementedException();
-        }
+        public override LevelEvent CreateEvent() => new ChaosEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
+            _enviroment.GenerateEnemiesEvent<FlowermanAI>(newLevel, currentRate);
+            _enviroment.GenerateEnemiesEvent<BlobAI>(newLevel, currentRate);
+            _enviroment.GenerateEnemiesEvent<SandSpiderAI>(newLevel, currentRate);
+            _enviroment.GenerateEnemiesEvent<CentipedeAI>(newLevel, currentRate);
+            _enviroment.GenerateEnemiesEvent<CrawlerAI>(newLevel, currentRate);
+            _enviroment.GenerateEnemiesEvent<HoarderBugAI>(newLevel, currentRate, 2.0f);
+            _enviroment.GenerateEnemiesEvent<SpringManAI>(newLevel, currentRate);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-using BrutalEvent.Models;
+﻿using BrutalEvent.Models;
 using BrutalEvent.Services.Abstract;
 
 namespace BrutalEvent.Services.Events
@@ -9,17 +7,16 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return "THE HUNT BEGIN";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            throw new NotImplementedException();
-        }
+        public override LevelEvent CreateEvent() => new BrackerAndCoilEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
+            _enviroment.GenerateEnemiesEvent<FlowermanAI>(newLevel, currentRate, 1.5f);
+            _enviroment.GenerateEnemiesEvent<SpringManAI>(newLevel, currentRate, 1.5f);
         }
     }
 }
