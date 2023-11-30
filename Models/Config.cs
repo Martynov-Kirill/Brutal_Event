@@ -15,7 +15,7 @@ namespace BrutalEvent.Models
         public ConfigEntry<int> StartingQuota { get; set; }
         public ConfigEntry<int> StartingCredits { get; set; }
         public ConfigEntry<float> BaseIncrease { get; set; }
-        public ConfigEntry<float> RandomizerMultiplier { get; set; }
+        public ConfigEntry<float> Multiplier { get; set; }
         public ConfigEntry<int> DeadlineDaysAmount { get; set; }
     }
 }

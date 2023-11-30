@@ -19,9 +19,12 @@ namespace BrutalEvent.Services.Abstract
             _curveGenerator = new SpawnCurveGenerator();
         }
 
-        public void GenerateEnemiesEvent<T>(SelectableLevel currentLevel, float currentRate)
+        public void GenerateEnemiesEvent<T>(SelectableLevel currentLevel, float currentRate, float multiplier = 1)
             where T : EnemyAI
         {
+            if (multiplier < 1 || multiplier > 3)
+                multiplier = 1;
+
             currentRate = currentRate == 0 ? 1 : currentRate;
             var rarity = new NormalDistributionService().CalculateRarity(currentLevel, currentRate);
 
@@ -30,7 +33,8 @@ namespace BrutalEvent.Services.Abstract
                 var enemy = currentLevel.Enemies[i];
                 if (enemy.enemyType.enemyPrefab.GetComponent<T>() != null)
                 {
-                    enemy.rarity += (int)rarity + Configuration.enemyRaritys[enemy];
+                    enemy.rarity += (int)rarity * Configuration.enemyRaritys[enemy];
+                    enemy.enemyType.MaxCount += (int)(multiplier * rarity);
                 }
             }
         }
@@ -143,9 +147,6 @@ namespace BrutalEvent.Services.Abstract
         {
             level.maxScrap += AdditionalMaxScrap;
             level.maxTotalScrapValue += (int)Random.Range(config.MinScrap.Value, config.MaxScrap.Value);
-            level.daytimeEnemySpawnChanceThroughDay =
-                _curveGenerator.CreateEnemySpawnCurve(new[] { 0f, 1f }, new[] { 5f, 25f });
-
             level.maxEnemyPowerCount += MaxEnemyPowerIncrement;
             level.maxOutsideEnemyPowerCount += MaxOutsideEnemyPowerIncrement;
             level.maxDaytimeEnemyPowerCount += MaxDaytimeEnemyPowerIncrement;
@@ -164,15 +165,22 @@ namespace BrutalEvent.Services.Abstract
             Configuration.mls.LogWarning($"|{new string('-', 26)}|");
         }
 
-        public SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate)
+        public SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate, float multiplier = 1)
         {
+            if (multiplier < 1 || multiplier > 3)
+                multiplier = 1;
+
+            newLevel.daytimeEnemySpawnChanceThroughDay = _curveGenerator.CreateEnemySpawnCurve(
+                new[] { 0f, 1f * multiplier },
+                new[] { 5f, 25f + currentEventRate * multiplier });
+
             newLevel.enemySpawnChanceThroughoutDay = _curveGenerator.CreateEnemySpawnCurve(
-                    new[] { 0f, 1f }, 
-                    new[] { 0.4f + currentEventRate, 33f + currentEventRate });
+                new[] { 0f, 1f * multiplier },
+                new[] { 0.4f + currentEventRate, 33f + currentEventRate * multiplier });
 
             newLevel.outsideEnemySpawnChanceThroughDay = _curveGenerator.CreateEnemySpawnCurve(
-                    new[] { 0f, -10f },
-                    new[] { 0.9f + currentEventRate, 10f + currentEventRate });
+                new[] { 0f, -10f },
+                new[] { 0.8f + currentEventRate, 10f + currentEventRate });
 
             return newLevel;
         }
