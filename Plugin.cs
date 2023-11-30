@@ -29,7 +29,9 @@ namespace BrutalEvent
         private const string PluginName = "BrutalEvent";
         private const string VersionString = "1.0.0";
         private Harmony _harmony = new Harmony("BrutalEvent");
-        public static Config _config;
+        private static Config _config;
+        private static EventFactory _eventFactory;
+        private static MasterEnviroment _masterEnviroment;
 
         /// <summary>
         /// Initialise the configuration settings and patch methods
@@ -38,6 +40,8 @@ namespace BrutalEvent
         {
             Instance = this;
             _config = new LoadConfig().BindConfigSettings();
+            _eventFactory = new EventFactory();
+            _masterEnviroment = new MasterEnviroment();
 
             Configuration.mls = BepInEx.Logging.Logger.CreateLogSource("BrutalEvent");
             _harmony.PatchAll(typeof(Plugin));
@@ -54,17 +58,21 @@ namespace BrutalEvent
             if (RoundManager.Instance.IsHost)
             {
                 MonoBehaviours.QuotaAjuster.CleanupAllSpawns();
-                // Generate new random game event
-                var eventEnum = (EventEnum)Random.Range(0, Enum.GetValues(typeof(EventEnum)).Length);
-                eventEnum = EventEnum.Kleptomania;
-
+                
                 // Setup rarity rate
                 Configuration.RarityLevelValue.TryGetValue(newLevel, out float currentEventRate);
                 Configuration.mls.LogInfo("NormalizeEnemiesRarity");
-                NormalizeEnemiesRarity(newLevel);
-                SetupRateLimit(newLevel, eventEnum, _config);
+
+                _masterEnviroment.NormalizeEnemiesRarity(newLevel);
+                _eventFactory.GetRandomEvent();
+
+                if (newLevel.sceneName == "CompanyBuilding")
+                    _eventFactory.EventEnum = EventEnum.None;
+
+                _masterEnviroment.SetupRateLimit(newLevel,_eventFactory.EventEnum,_config);
+
                 Configuration.mls.LogInfo("ShowEnemyRarirty");
-                ShowEnemyRarirty(newLevel, currentEventRate);
+                _masterEnviroment.ShowEnemyRarirty(newLevel, currentEventRate);
 
                 // Setup Spawnable enemies
                 foreach (var enemy in newLevel.Enemies)
@@ -77,6 +85,7 @@ namespace BrutalEvent
                         Configuration.enemyPropCurves.Add(enemy, enemy.enemyType.probabilityCurve);
                     enemy.enemyType.probabilityCurve = Configuration.enemyPropCurves[enemy];
                 }
+
                 HUDManager.Instance.AddTextToChatOnServer($"<color=orange>MOON IS AT {currentEventRate} %RATE</color>");
 
                 if (currentEventRate > _config.LimitRate.Value)
@@ -85,9 +94,6 @@ namespace BrutalEvent
                         $"<color=red>HEAT LEVEL IS DANGEROUSLY HIGH : {currentEventRate} " +
                         "<color=white>\nVISIT OTHER MOONS TO LOWER HEAT LEVEL.</color>");
                 }
-
-                if (newLevel.sceneName == "CompanyBuilding")
-                    eventEnum = EventEnum.None;
 
                 switch (eventEnum)
                 {
@@ -223,12 +229,13 @@ namespace BrutalEvent
                     default:
                         break;
                 }
-                newLevel = MasterEnviroment.SetupLevelScrap(newLevel,_config);
-                newLevel = SetupEnemyChance(newLevel, eventEnum, currentEventRate);
-
+                
                 Configuration.RarityLevelValue.TryGetValue(newLevel, out currentEventRate);
-                Configuration.RarityLevelValue[newLevel] = Mathf.Clamp(currentEventRate + 15f, 0f, _config.MaxRate.Value);
 
+                newLevel = _masterEnviroment.SetupLevelScrap(newLevel, _config);
+                newLevel = _masterEnviroment.SetupEnemyChance(newLevel, currentEventRate);
+
+                Configuration.RarityLevelValue[newLevel] = Mathf.Clamp(currentEventRate + 15f, 0f, _config.MaxRate.Value);
                 if (!newLevel.sceneName.Contains("CompanyBuilding"))
                 {
                     var terminalCredits = FindObjectOfType<Terminal>();
@@ -238,44 +245,11 @@ namespace BrutalEvent
                         terminalCredits.numberOfItemsInDropship);
                 }
 
-                ShowEnemyRarirty(newLevel, currentEventRate);
+                _masterEnviroment.ShowEnemyRarirty(newLevel, currentEventRate);
             }
             return true;
         }
 
-        public static SelectableLevel SetupEnemyChance(SelectableLevel newLevel, EventEnum eventEnum,
-            float currentEventRate)
-        {
-            newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new[]
-            {
-                new Keyframe(0f, 0.1f + currentEventRate),
-                new Keyframe(1f, 33f + currentEventRate)
-            });
-
-            newLevel.outsideEnemySpawnChanceThroughDay = new AnimationCurve(new[]
-            {
-                new Keyframe(0f, -10f + currentEventRate),
-                new Keyframe(1f, 10f + currentEventRate),
-            });
-
-            return newLevel;
-        }
-
-        private static void ShowEnemyRarirty(SelectableLevel newLevel, float currentEventRate)
-        {
-            Configuration.mls.LogWarning($"|{new string('-', 4)}All ENEMIES RARITY{new string('-', 4)}|");
-            Configuration.mls.LogWarning($"| Current Rate: {currentEventRate}%         |");
-            foreach (var spawnableEnemy in newLevel.Enemies)
-            {
-                Configuration.mls.LogInfo(
-                    $"| {spawnableEnemy.enemyType.enemyName,17} : {spawnableEnemy.rarity,-3}% |");
-            }
-
-            Configuration.mls.LogWarning($"|{new string('-', 26)}|");
-        }
-
-       
-       
 
         public static void ShowLogo()
         {

@@ -10,33 +10,35 @@ namespace BrutalEvent.Services
     public class EventFactory : IEventFactory
     {
         private List<EventEnum> customEventOrder = new List<EventEnum>();
-        private int customCurrentIndex;
-        private int currentIndex;
+        private int _customCurrentIndex;
+        private int _currentIndex;
         private Random random = new Random();
-
+        
         public EventFactory()
         {
             
         }
 
+        public EventEnum EventEnum { get; set; } = EventEnum.None;
+
         public LevelEvent GetRandomEvent()
         {
-            var gameEvent = (EventEnum)random.Next(Enum.GetValues(typeof(EventEnum)).Length);
-            return CreateEvent(gameEvent);
+            EventEnum = (EventEnum)random.Next(Enum.GetValues(typeof(EventEnum)).Length);
+            return CreateEvent(EventEnum);
         }
 
         public LevelEvent GetEventInOrder()
         {
-            var gameEvent = (EventEnum)Enum.GetValues(typeof(EventEnum)).GetValue(currentIndex);
-            currentIndex = (currentIndex + 1) % Enum.GetValues(typeof(EventEnum)).Length;
-            return CreateEvent(gameEvent);
+            EventEnum = (EventEnum)Enum.GetValues(typeof(EventEnum)).GetValue(_currentIndex);
+            _currentIndex = (_currentIndex + 1) % Enum.GetValues(typeof(EventEnum)).Length;
+            return CreateEvent(EventEnum);
         }
 
         public LevelEvent GetEventInCustomOrder()
         {
-            EventEnum gameEvent = customEventOrder[customCurrentIndex];
-            customCurrentIndex = (customCurrentIndex + 1) % customEventOrder.Count;
-            return CreateEvent(gameEvent);
+            EventEnum = customEventOrder[_customCurrentIndex];
+            _customCurrentIndex = (_customCurrentIndex + 1) % customEventOrder.Count;
+            return CreateEvent(EventEnum);
         }
 
         public LevelEvent CreateEvent(EventEnum gameEvent)

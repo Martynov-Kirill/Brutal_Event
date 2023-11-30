@@ -1,4 +1,5 @@
 ﻿using System;
+using BrutalEvent.Enums;
 using UnityEngine;
 
 namespace BrutalEvent.Services.Abstract
@@ -20,6 +21,23 @@ namespace BrutalEvent.Services.Abstract
             }
 
             return new AnimationCurve(keyframes);
+        }
+
+        public static SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate)
+        {
+            newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new[]
+            {
+                new Keyframe(0f, 0.1f + currentEventRate),
+                new Keyframe(1f, 33f + currentEventRate)
+            });
+
+            newLevel.outsideEnemySpawnChanceThroughDay = new AnimationCurve(new[]
+            {
+                new Keyframe(0f, -10f + currentEventRate),
+                new Keyframe(1f, 10f + currentEventRate),
+            });
+
+            return newLevel;
         }
     }
 }

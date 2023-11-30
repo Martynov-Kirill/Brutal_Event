@@ -139,7 +139,7 @@ namespace BrutalEvent.Services.Abstract
             return newLevel;
         }
 
-        private void ModifyDaySettings(SelectableLevel level, Config config)
+        public void ModifyDaySettings(SelectableLevel level, Config config)
         {
             level.maxScrap += AdditionalMaxScrap;
             level.maxTotalScrapValue += (int)Random.Range(config.MinScrap.Value, config.MaxScrap.Value);
@@ -149,6 +149,32 @@ namespace BrutalEvent.Services.Abstract
             level.maxEnemyPowerCount += MaxEnemyPowerIncrement;
             level.maxOutsideEnemyPowerCount += MaxOutsideEnemyPowerIncrement;
             level.maxDaytimeEnemyPowerCount += MaxDaytimeEnemyPowerIncrement;
+        }
+
+        public void ShowEnemyRarirty(SelectableLevel newLevel, float currentEventRate)
+        {
+            Configuration.mls.LogWarning($"|{new string('-', 4)}All ENEMIES RARITY{new string('-', 4)}|");
+            Configuration.mls.LogWarning($"| Current Rate: {currentEventRate}%         |");
+            foreach (var spawnableEnemy in newLevel.Enemies)
+            {
+                Configuration.mls.LogInfo(
+                    $"| {spawnableEnemy.enemyType.enemyName,17} : {spawnableEnemy.rarity,-3}% |");
+            }
+
+            Configuration.mls.LogWarning($"|{new string('-', 26)}|");
+        }
+
+        public SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate)
+        {
+            newLevel.enemySpawnChanceThroughoutDay = _curveGenerator.CreateEnemySpawnCurve(
+                    new[] { 0f, 1f }, 
+                    new[] { 0.4f + currentEventRate, 33f + currentEventRate });
+
+            newLevel.outsideEnemySpawnChanceThroughDay = _curveGenerator.CreateEnemySpawnCurve(
+                    new[] { 0f, -10f },
+                    new[] { 0.9f + currentEventRate, 10f + currentEventRate });
+
+            return newLevel;
         }
     }
 }
