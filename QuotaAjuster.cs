@@ -3,9 +3,10 @@ using HarmonyLib;
 
 namespace BrutalEvent
 {
-    [HarmonyPatch(typeof(TimeOfDay), "Start")]
+    [HarmonyPatch(typeof(TimeOfDay), "Awake")]
     public class QuotaAjuster
     {
+        [HarmonyPrefix]
         private static void Prefix(TimeOfDay __instance)
         {
             Configuration.mls.LogWarning("Changing quota variables in patch!");

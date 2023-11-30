@@ -10,9 +10,9 @@ namespace BrutalEvent.Common
         {
             var config = new Config();
             config.MinScrap = Plugin.Instance.Config
-                .Bind(_sectionName, "MinScrap", 100f, "MinScrap");
+                .Bind(_sectionName, "MinScrap", 250f, "MinScrap");
             config.MaxScrap = Plugin.Instance.Config
-                .Bind(_sectionName, "MaxScrap", 800f, "MaxScrap");
+                .Bind(_sectionName, "MaxScrap", 650f, "MaxScrap");
             config.LimitRate = Plugin.Instance.Config
                 .Bind(_sectionName, "LimitRate", 50f, "LimitRate");
             config.MaxRate = Plugin.Instance.Config
