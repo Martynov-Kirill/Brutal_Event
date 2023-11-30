@@ -6,7 +6,7 @@ namespace BrutalEvent
     [HarmonyPatch(typeof(TimeOfDay), "Awake")]
     public class QuotaAjuster
     {
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         private static void Prefix(TimeOfDay __instance)
         {
             Configuration.mls.LogWarning("Changing quota variables in patch!");
