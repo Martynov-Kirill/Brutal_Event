@@ -11,8 +11,8 @@ but with dynamically changing variables
 and a future plan where players themselves
 can create their own events directly in the config file.
 
-```
 Current Events :
+```
 -LEAVE THIS MOON! NOW!
 -WATCH YOUR HEAD!
 -ARACHNOPHOBIA!
@@ -40,6 +40,7 @@ Current Events :
 теперь можно играть небольшими компаниями.
 
 Возможные события :
+```
 -LEAVE THIS MOON! NOW!
 -WATCH YOUR HEAD!
 -ARACHNOPHOBIA!
@@ -58,6 +59,7 @@ Current Events :
 -DID YOU SAW THIS MOVIE?)
 -THIS IS UNFAIR! :(
 -WHO LET THE DOGS OUT, WOOF WOOF
+```
 
  - Этот мод был вдохновлен модом BrutalEvent
 и я тоже хотел сделать что то подобное
