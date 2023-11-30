@@ -78,7 +78,6 @@
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="MonoBehaviours\QuotaAjuster.cs" />
     <Compile Include="Services\Abstract\MasterEnviroment.cs" />
     <Compile Include="Services\Abstract\SpawnCurveGenerator.cs" />
     <Compile Include="Services\EventFactory.cs" />

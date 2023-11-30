@@ -9,14 +9,7 @@ namespace BrutalEvent.Services
 {
     public class EventFactory : IEventFactory
     {
-        private List<EventEnum> customEventOrder = new List<EventEnum>();
-        private int _currentIndex;
         private Random random = new Random();
-        
-        public EventFactory()
-        {
-            _currentIndex = 0;
-        }
 
         public EventEnum EventEnum { get; set; } = EventEnum.None;
 

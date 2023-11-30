@@ -14,7 +14,7 @@ namespace BrutalEvent
     {
         // Mod specific details. MyGUID should be unique, and follow the reverse domain pattern
         // e.g.
-        // Liquid.BrutalEvent
+        // Liquid.BetterBrutalEvent
         // Version should be a valid version string.
         // e.g. 1.0.0
         public static Plugin Instance { get; set; }
@@ -57,7 +57,6 @@ namespace BrutalEvent
                 return false;
             }
 
-            MonoBehaviours.QuotaAjuster.CleanupAllSpawns();
             Configuration.RarityLevelValue.TryGetValue(newLevel, out float currentEventRate);
 
             Configuration.mls.LogInfo("NORMALIZATION ENEMIES");
