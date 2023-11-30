@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BrutalEvent.Models;
+using BrutalEvent.Services.Abstract;
+
+namespace BrutalEvent.Services.Events
+{
+    internal class AllEvent : LevelEvent
+    {
+        public override string GetEventName()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override LevelEvent CreateEvent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

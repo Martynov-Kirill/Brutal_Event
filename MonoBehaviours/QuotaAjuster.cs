@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 using BrutalEvent.Models;
-
-using GameNetcodeStuff;
-
 using Unity.Netcode;
-
 using UnityEngine;
 
 namespace BrutalEvent.MonoBehaviours
@@ -35,7 +26,7 @@ namespace BrutalEvent.MonoBehaviours
         /// </summary>
         public void Awake()
         {
-            EventConfiguration.mls.LogWarning("Changing quota variables");
+            Configuration.mls.LogWarning("Changing quota variables");
         }
 
         /// <summary>

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BrutalEvent.Service.Interface;
+using BrutalEvent.Services.Abstract.Interface;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace BrutalEvent.Service
+namespace BrutalEvent.Services
 {
     public class NormalDistributionService : INormalDistributionService
     {
@@ -21,7 +21,7 @@ namespace BrutalEvent.Service
             float rarity = NormalDistribution(mu, sigma, players);
 
             // Корректировка редкости в диапазоне от 0 до 100
-            return Mathf.Clamp(rarity, 0, 1000);
+            return Mathf.Clamp(rarity, 0, 100);
         }
 
         public float NormalDistribution(float mu, float sigma, int players)

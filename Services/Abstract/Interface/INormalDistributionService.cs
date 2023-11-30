@@ -1,4 +1,4 @@
-﻿namespace BrutalEvent.Service.Interface
+﻿namespace BrutalEvent.Services.Abstract.Interface
 {
     public interface INormalDistributionService
     {
