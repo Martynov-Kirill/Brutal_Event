@@ -102,7 +102,7 @@ namespace BrutalEvent
         }
         private static void UpdateHUDAndCredits(SelectableLevel newLevel, float currentEventRate)
         {
-            HUDManager.Instance.AddTextToChatOnServer($"<color=orange>MOON IS AT {currentEventRate} %RATE</color>");
+            HUDManager.Instance.AddTextToChatOnServer($"<color=yellow>MOON IS AT {currentEventRate} %RATE</color>");
             
             if (currentEventRate > _config.LimitRate.Value)
             {
