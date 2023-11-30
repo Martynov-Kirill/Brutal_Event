@@ -5,7 +5,6 @@ namespace BrutalEvent.Common
     public class LoadConfig
     {
         private string _sectionName = "BrutalEventSettings";
-        private string _subSectionName = "QuotaAjuster";
         public Config BindConfigSettings()
         {
             var config = new Config();
@@ -23,11 +22,12 @@ namespace BrutalEvent.Common
                 .Bind(_sectionName, "RarityMax", 100f, "RarityMax");
             config.AddCredits = Plugin.Instance.Config
                 .Bind(_sectionName, "AddCredits", 45, "Additional credits on each mission");
-            config.StartingQuota = Plugin.Instance.Config.Bind($"{_sectionName}.{_subSectionName}", "StartingQuota", 299, "StartingQuota Value");
-            config.StartingCredits = Plugin.Instance.Config.Bind($"{_sectionName}.{_subSectionName}", "StartingCredits", 150, "StartingCredits Value");
-            config.BaseIncrease = Plugin.Instance.Config.Bind($"{_sectionName}.{_subSectionName}", "BaseIncrease", 51f, "Increase Quota value each round");
-            config.Multiplier = Plugin.Instance.Config.Bind($"{_sectionName}.{_subSectionName}", "RandomizerMultiplier", 1.0f, "Multiplier spawnable chance Value [1.0 .. 3.0]");
-            config.DeadlineDaysAmount = Plugin.Instance.Config.Bind($"{_sectionName}.{_subSectionName}", "DeadlineDaysAmount", 5, "Deadline Days Amount");
+
+            config.StartingQuota = Plugin.Instance.Config.Bind($"{_sectionName}", "StartingQuota", 299, "StartingQuota Value");
+            config.StartingCredits = Plugin.Instance.Config.Bind($"{_sectionName}", "StartingCredits", 150, "StartingCredits Value");
+            config.BaseIncrease = Plugin.Instance.Config.Bind($"{_sectionName}", "BaseIncrease", 51f, "Increase Quota value each round");
+            config.Multiplier = Plugin.Instance.Config.Bind($"{_sectionName}", "RandomizerMultiplier", 1.0f, "Multiplier spawnable chance Value [1.0 .. 3.0]");
+            config.DeadlineDaysAmount = Plugin.Instance.Config.Bind($"{_sectionName}", "DeadlineDaysAmount", 5, "Deadline Days Amount");
 
             return config;
         }
