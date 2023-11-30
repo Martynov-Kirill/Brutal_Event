@@ -13,8 +13,11 @@ can create their own events directly in the config file.
 
 Current Events :
 -LEAVE THIS MOON! NOW!
+
 -WATCH YOUR HEAD!
+
 -ARACHNOPHOBIA!
+
 -BLOBAPOCALYPSIS
 -THE HUNT BEGIN!
 -LEAVE THIS MOON! CHAOS!
