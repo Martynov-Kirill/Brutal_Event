@@ -9,17 +9,14 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return "<color=green>NONE EVENT</color>";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            throw new NotImplementedException();
-        }
+        public override LevelEvent CreateEvent() => new NoneEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            _enviroment.NormalizeEnemiesRarity(newLevel);
         }
     }
 }

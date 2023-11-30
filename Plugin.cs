@@ -52,39 +52,48 @@ namespace BrutalEvent
 
             if (RoundManager.Instance.IsHost == false)
             {
-                Configuration.mls.LogWarning(" BRUTAL EVENT NOT A LOADING");
                 Configuration.mls.LogWarning(" YOU ARE NOT A HOST! (>_<)");
+                Configuration.mls.LogWarning(" BRUTAL EVENT DIDN'T LOADING");
                 return false;
             }
 
             MonoBehaviours.QuotaAjuster.CleanupAllSpawns();
             Configuration.RarityLevelValue.TryGetValue(newLevel, out float currentEventRate);
-            Configuration.mls.LogInfo("NormalizeEnemiesRarity");
 
+            Configuration.mls.LogInfo("NORMALIZATION ENEMIES");
             _masterEnviroment.NormalizeEnemiesRarity(newLevel);
 
+            Configuration.mls.LogInfo("GENERATE EVENT");
             // Оптимизация выбора события
             var currentEvent = newLevel.sceneName == "CompanyBuilding"
                 ? _eventFactory.CreateEvent(EventEnum.None)
                 : _eventFactory.GetRandomEvent();
 
-            currentEvent.OnLoadNewLevel(ref newLevel, _config, currentEventRate);
             _masterEnviroment.SetupRateLimit(newLevel, _eventFactory.EventEnum, _config);
 
-            // Оптимизация обработки врагов
-            foreach (var enemy in newLevel.Enemies)
-            {
-                enemy.rarity = Configuration.enemyRaritys.TryGetValue(enemy, out var rarity) ? rarity : enemy.rarity;
-                enemy.enemyType.probabilityCurve = Configuration.enemyPropCurves.TryGetValue(enemy, out var curve) ? curve : enemy.enemyType.probabilityCurve;
-            }
+            //// Оптимизация обработки врагов
+            //foreach (var enemy in newLevel.Enemies)
+            //{
+            //    enemy.rarity = Configuration.enemyRaritys.TryGetValue(enemy, out var rarity) ? rarity : enemy.rarity;
+            //    enemy.enemyType.probabilityCurve = Configuration.enemyPropCurves.TryGetValue(enemy, out var curve) ? curve : enemy.enemyType.probabilityCurve;
+            //}
 
             UpdateHUDAndCredits(newLevel, currentEventRate);
 
+            Configuration.mls.LogInfo("SETUP SCRAP LIMIT");
             _masterEnviroment.SetupLevelScrap(newLevel, _config);
-            _masterEnviroment.SetupEnemyChance(newLevel, currentEventRate);
 
+            //Configuration.mls.LogInfo("SETUP ENEMY CHANCE");
+            //_masterEnviroment.SetupEnemyChance(newLevel, currentEventRate);
+
+            Configuration.mls.LogInfo("ON LOAD NEW LEVEL");
+            currentEvent.OnLoadNewLevel(ref newLevel, _config, currentEventRate);
+
+            Configuration.mls.LogInfo("RARITY BY LEVEL[newLevel]");
             Configuration.RarityLevelValue[newLevel] = Mathf.Clamp(currentEventRate + 15f, 0f, _config.MaxRate.Value);
-            _masterEnviroment.ShowEnemyRarirty(newLevel, currentEventRate);
+
+            HUDManager.Instance.AddTextToChatOnServer($"{currentEvent.GetEventName()}");
+            Configuration.mls.LogWarning($"EVENT : {currentEvent.GetEventName()}");
 
             Configuration.mls.LogInfo("ShowEnemyRarirty");
             _masterEnviroment.ShowEnemyRarirty(newLevel, currentEventRate);
@@ -94,7 +103,7 @@ namespace BrutalEvent
         private static void UpdateHUDAndCredits(SelectableLevel newLevel, float currentEventRate)
         {
             HUDManager.Instance.AddTextToChatOnServer($"<color=orange>MOON IS AT {currentEventRate} %RATE</color>");
-
+            
             if (currentEventRate > _config.LimitRate.Value)
             {
                 HUDManager.Instance.AddTextToChatOnServer(

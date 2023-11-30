@@ -9,17 +9,25 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return "<color=orange>COMPANY SECURITY SYSTEM! GLHF :)</color>";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            throw new NotImplementedException();
-        }
+        public override LevelEvent CreateEvent() => new SecurityEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
+            var spawnableMapObjects = newLevel.spawnableMapObjects;
+
+            foreach (var mapObject in spawnableMapObjects)
+            {
+                if (mapObject.prefabToSpawn.GetComponentInChildren<Turret>() != null)
+                {
+                    mapObject.numberToSpawn = _curveGenerator.CreateSpawnCurve(
+                        new[] { 0f, 25f + currentRate },
+                        new[] { 100f, 100f + currentRate * 3f });
+                }
+            }
         }
     }
 }

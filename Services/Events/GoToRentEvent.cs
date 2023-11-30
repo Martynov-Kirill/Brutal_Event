@@ -8,7 +8,7 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return "GO TO RENT!";
+            return "<color=green>GO TO RENT!</color>";
         }
 
         public override LevelEvent CreateEvent() => new GoToRentEvent();

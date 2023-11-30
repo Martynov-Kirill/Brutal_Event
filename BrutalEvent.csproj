@@ -98,7 +98,6 @@
     <Compile Include="Services\Abstract\LevelEvent.cs" />
     <Compile Include="Services\Abstract\Interface\IEventFactory.cs" />
     <Compile Include="Services\Events\ReplaceItemsEvent.cs" />
-    <Compile Include="Services\Events\ResetEvent.cs" />
     <Compile Include="Services\Events\SecurityEvent.cs" />
     <Compile Include="Services\Events\TremorsEvent.cs" />
     <Compile Include="Services\Events\UnFairEvent.cs" />

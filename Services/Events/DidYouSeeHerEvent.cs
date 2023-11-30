@@ -7,7 +7,7 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return $"DID YOU SEE HER?!";
+            return $"<color=red>DID YOU SEE HER?!</color>";
         }
 
         public override LevelEvent CreateEvent() => new DidYouSeeHerEvent();

@@ -35,7 +35,7 @@ namespace BrutalEvent.Services
 
         public LevelEvent CreateEvent(EventEnum gameEvent)
         {
-            LevelEvent eventInstance = gameEvent switch
+            return gameEvent switch
             {
                 EventEnum.None => new NoneEvent(),
                 EventEnum.All => new AllEvent(),
@@ -55,11 +55,8 @@ namespace BrutalEvent.Services
                 EventEnum.Delivery => new DeliveryEvent(),
                 EventEnum.LetsFly => new LetsFlyEvent(),
                 EventEnum.ReplaceItems => new ReplaceItemsEvent(),
-                EventEnum.ResetEvent => new ResetEvent(),
                 _ => new NoneEvent(),
             };
-
-            return eventInstance.CreateEvent();
         }
     }
 }

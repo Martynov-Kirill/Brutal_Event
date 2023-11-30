@@ -20,6 +20,5 @@
         Delivery,
         LetsFly,
         ReplaceItems,
-        ResetEvent,
     }
 }

@@ -9,7 +9,7 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return $"CHAOS, LEAVE THIS MOON!";
+            return $"<color=red>LEAVE THIS MOON! CHAOS!</color>";
         }
 
         public override LevelEvent CreateEvent() => new ChaosEvent();

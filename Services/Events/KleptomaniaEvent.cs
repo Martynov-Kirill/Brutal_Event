@@ -9,7 +9,7 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return $"KLEPTOMANIA!";
+            return $"<color=orange>KLEPTOMANIA!</color>";
         }
 
         public override LevelEvent CreateEvent()

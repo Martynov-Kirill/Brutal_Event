@@ -8,13 +8,10 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return $"ITS A PLANE! NO ITS A FLY";
+            return $"<color=green>ITS A FLY?! NO ITS A PLANE!</color>";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            return new LetsFlyEvent();
-        }
+        public override LevelEvent CreateEvent() => new LetsFlyEvent();
 
         public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {

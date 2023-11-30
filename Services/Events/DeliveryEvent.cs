@@ -9,7 +9,7 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return $"EZ DELIVERY!";
+            return $"<color=green>EZ DELIVERY!</color>";
         }
 
         public override LevelEvent CreateEvent() => new DeliveryEvent();

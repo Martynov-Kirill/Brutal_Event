@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BrutalEvent.Enums;
 using BrutalEvent.Models;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BrutalEvent.Services.Abstract
 {
@@ -33,8 +35,18 @@ namespace BrutalEvent.Services.Abstract
                 var enemy = currentLevel.Enemies[i];
                 if (enemy.enemyType.enemyPrefab.GetComponent<T>() != null)
                 {
-                    enemy.rarity += (int)rarity * Configuration.enemyRaritys[enemy];
-                    enemy.enemyType.MaxCount += (int)(multiplier * rarity);
+                    var originalRarity = Configuration
+                        .OriginalEnemiesRarities[currentLevel]
+                        .FirstOrDefault(x => x.enemyType.enemyName.Equals(enemy.enemyType.enemyName))!
+                        .rarity;
+
+                    enemy.rarity = (int)(rarity * multiplier) + originalRarity;
+
+                    enemy.enemyType.MaxCount += (int)(rarity * multiplier);
+                    enemy.enemyType.probabilityCurve = _curveGenerator.CreateSpawnCurve(
+                        new[] { 0f, 40f + multiplier * currentRate },
+                        new[] { 100f, 100f + (multiplier * currentRate) + originalRarity}
+                    );
                 }
             }
         }
@@ -43,14 +55,20 @@ namespace BrutalEvent.Services.Abstract
         {
             if (!Configuration.OriginalEnemiesRarities.ContainsKey(currentLevel))
             {
-                var originalEnemies = new List<SpawnableEnemyWithRarity>(Configuration.Enemies[currentLevel]
+                Configuration.mls.LogInfo("START METHOD NORMALIZATION ENEMIES");
+
+                var originalEnemies = new List<SpawnableEnemyWithRarity>(currentLevel.Enemies
                     .Select(e => new SpawnableEnemyWithRarity
                     {
                         enemyType = e.enemyType,
                         rarity = e.rarity
                     }));
+
+                Configuration.mls.LogInfo($"ORIGINAL ENEMIES : {originalEnemies.Count}");
                 Configuration.OriginalEnemiesRarities[currentLevel] = originalEnemies;
             }
+            
+            Configuration.mls.LogInfo("MID METHOD NORMALIZATION ENEMIES");
 
             var originalRarities = Configuration.OriginalEnemiesRarities[currentLevel];
             foreach (var enemy in currentLevel.Enemies)
@@ -71,8 +89,9 @@ namespace BrutalEvent.Services.Abstract
             List<string> typesEnemyCollection = default)
         {
             // Преобразование списка в HashSet для улучшения производительности поиска
-            var typesEnemySet = typesEnemyCollection != null 
-                ? new HashSet<string>(typesEnemyCollection) : null;
+            var typesEnemySet = typesEnemyCollection != null
+                ? new HashSet<string>(typesEnemyCollection)
+                : null;
 
             foreach (var enemy in currentLevel.Enemies)
             {
@@ -123,7 +142,7 @@ namespace BrutalEvent.Services.Abstract
                 {
                     var newRarityValue = Mathf.Clamp(rate, config.RarityMin.Value, config.RarityMax.Value);
 
-                    if (eventEnum == EventEnum.ResetEvent || eventEnum == EventEnum.All)
+                    if (eventEnum == EventEnum.All)
                         Configuration.RarityLevelValue[level] = 0;
                     else
                         Configuration.RarityLevelValue[level] = newRarityValue;
@@ -131,22 +150,23 @@ namespace BrutalEvent.Services.Abstract
             }
         }
 
-        public SelectableLevel SetupLevelScrap(SelectableLevel newLevel, Config config)
+        public SelectableLevel SetupLevelScrap(SelectableLevel newLevel, Config config, float multiplier = 1f)
         {
             if (!Configuration.levelsModified.Contains(newLevel))
             {
                 Configuration.levelsModified.Add(newLevel);
 
-                ModifyDaySettings(newLevel, config);
+                ModifyDaySettings(newLevel, config, multiplier);
             }
 
             return newLevel;
         }
 
-        public void ModifyDaySettings(SelectableLevel level, Config config)
+        public void ModifyDaySettings(SelectableLevel level, Config config, float multiplier = 1f)
         {
-            level.maxScrap += AdditionalMaxScrap;
-            level.maxTotalScrapValue += (int)Random.Range(config.MinScrap.Value, config.MaxScrap.Value);
+            level.maxScrap += (int)(AdditionalMaxScrap * multiplier);
+            level.maxTotalScrapValue
+                += (int)(Random.Range(config.MinScrap.Value, config.MaxScrap.Value) * multiplier);
             level.maxEnemyPowerCount += MaxEnemyPowerIncrement;
             level.maxOutsideEnemyPowerCount += MaxOutsideEnemyPowerIncrement;
             level.maxDaytimeEnemyPowerCount += MaxDaytimeEnemyPowerIncrement;
@@ -165,21 +185,21 @@ namespace BrutalEvent.Services.Abstract
             Configuration.mls.LogWarning($"|{new string('-', 26)}|");
         }
 
-        public SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate, 
+        public SelectableLevel SetupEnemyChance(SelectableLevel newLevel, float currentEventRate,
             float multiplier = 1)
         {
             if (multiplier < 1 || multiplier > 3)
                 multiplier = 1;
 
-            newLevel.daytimeEnemySpawnChanceThroughDay = _curveGenerator.CreateEnemySpawnCurve(
+            newLevel.daytimeEnemySpawnChanceThroughDay = _curveGenerator.CreateSpawnCurve(
                 new[] { 0f, 1f * multiplier },
                 new[] { 5f, 25f + currentEventRate * multiplier });
 
-            newLevel.enemySpawnChanceThroughoutDay = _curveGenerator.CreateEnemySpawnCurve(
+            newLevel.enemySpawnChanceThroughoutDay = _curveGenerator.CreateSpawnCurve(
                 new[] { 0f, 1f * multiplier },
                 new[] { 0.4f, 33f + currentEventRate * multiplier });
 
-            newLevel.outsideEnemySpawnChanceThroughDay = _curveGenerator.CreateEnemySpawnCurve(
+            newLevel.outsideEnemySpawnChanceThroughDay = _curveGenerator.CreateSpawnCurve(
                 new[] { 0f, -10f },
                 new[] { 0.8f, 10f + currentEventRate });
 

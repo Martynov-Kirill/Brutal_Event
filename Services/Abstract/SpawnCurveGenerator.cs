@@ -6,7 +6,7 @@ namespace BrutalEvent.Services.Abstract
     public class SpawnCurveGenerator
     {
         // Пример метода для создания кривой спавна
-        public AnimationCurve CreateEnemySpawnCurve(float[] times, float[] values)
+        public AnimationCurve CreateSpawnCurve(float[] times, float[] values)
         {
             if (times.Length != values.Length)
             {

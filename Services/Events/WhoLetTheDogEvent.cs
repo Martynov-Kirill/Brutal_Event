@@ -8,17 +8,30 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            throw new NotImplementedException();
+            return "<color=red>WHO LET THE DOGS OUT, WOOF WOOF</color>";
         }
 
-        public override LevelEvent CreateEvent()
-        {
-            throw new NotImplementedException();
-        }
+        public override LevelEvent CreateEvent() => new WhoLetTheDogEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
-            throw new NotImplementedException();
+            var spawnableMapObjects = newLevel.spawnableMapObjects;
+
+            for (int i = 0; i < newLevel.outsideEnemySpawnChanceThroughDay.length; i++)
+            {
+                if (newLevel.OutsideEnemies[i].enemyType.enemyName != nameof(MouthDogAI))
+                    newLevel.OutsideEnemies[i].rarity = 0;
+            }
+
+            foreach (var mapObject in spawnableMapObjects)
+            {
+                if (mapObject.prefabToSpawn.GetComponentInChildren<MouthDogAI>() != null)
+                {
+                    mapObject.numberToSpawn = _curveGenerator.CreateSpawnCurve(
+                        new[] { 0f, 5f },
+                        new[] { 0.5f, 50f + currentRate * 3f });
+                }
+            }
         }
     }
 }

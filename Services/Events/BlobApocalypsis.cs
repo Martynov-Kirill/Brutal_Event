@@ -7,7 +7,7 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return "BLOBAPOCALYPSIS";
+            return "<color=orange>BLOBAPOCALYPSIS</color>";
         }
 
         public override LevelEvent CreateEvent() => new BlobApocalypsis();
@@ -15,7 +15,7 @@ namespace BrutalEvent.Services.Events
         public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
             _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
-            _enviroment.GenerateEnemiesEvent<BlobAI>(newLevel, currentRate, 2.0f);
+            _enviroment.GenerateEnemiesEvent<BlobAI>(newLevel, currentRate, 3.0f);
         }
     }
 }

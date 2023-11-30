@@ -7,16 +7,17 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return "THE HUNT BEGIN";
+            return "<color=red>THE HUNT BEGIN!</color>";
         }
 
         public override LevelEvent CreateEvent() => new BrackerAndCoilEvent();
 
         public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
         {
+            _enviroment.ResetEnemiesRarity(newLevel);
             _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
-            _enviroment.GenerateEnemiesEvent<FlowermanAI>(newLevel, currentRate, 1.5f);
-            _enviroment.GenerateEnemiesEvent<SpringManAI>(newLevel, currentRate, 1.5f);
+            _enviroment.GenerateEnemiesEvent<FlowermanAI>(newLevel, currentRate, 2.0f);
+            _enviroment.GenerateEnemiesEvent<CrawlerAI>(newLevel, currentRate, 2.0f);
         }
     }
 }

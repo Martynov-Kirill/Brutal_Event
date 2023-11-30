@@ -7,7 +7,7 @@ namespace BrutalEvent.Services.Events
     {
         public override string GetEventName()
         {
-            return $"WATCH YOUR HEAD!";
+            return $"<color=orange>WATCH YOUR HEAD!</color>";
         }
 
         public override LevelEvent CreateEvent() => new AllSnareEvent();

@@ -12,7 +12,6 @@ namespace BrutalEvent
             __instance.quotaVariables.startingQuota = Plugin._config.StartingQuota.Value;
             __instance.quotaVariables.startingCredits = Plugin._config.StartingCredits.Value;
             __instance.quotaVariables.baseIncrease = Plugin._config.BaseIncrease.Value;
-            __instance.quotaVariables.randomizerMultiplier = Plugin._config.RandomizerMultiplier.Value;
             __instance.quotaVariables.deadlineDaysAmount = Plugin._config.DeadlineDaysAmount.Value;
         }
     }
