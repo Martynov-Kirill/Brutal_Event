@@ -29,7 +29,8 @@ namespace BrutalEvent
         private const string PluginName = "BrutalEvent";
         private const string VersionString = "1.0.0";
         private Harmony _harmony = new Harmony("BrutalEvent");
-        private static Config _config;
+
+        public static Config _config;
         private static EventFactory _eventFactory;
         private static MasterEnviroment _masterEnviroment;
 
@@ -95,140 +96,140 @@ namespace BrutalEvent
                         "<color=white>\nVISIT OTHER MOONS TO LOWER HEAT LEVEL.</color>");
                 }
 
-                switch (eventEnum)
-                {
-                    case EventEnum.None:
-                        Configuration.mls.LogInfo("<color=green>Level event: NONE</color>");
-                        HUDManager.Instance.AddTextToChatOnServer("<color=green>Level event: NONE</color>");
-                        break;
-                    case EventEnum.Turret:
-                        Configuration.mls.LogInfo("<color=green>Level event: TURRET HELL</color>");
-                        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: TURRET HELL</color>");
-                        foreach (var spawnObj in newLevel.spawnableMapObjects)
-                        {
-                            if (spawnObj.prefabToSpawn.GetComponentInChildren<Turret>() != null)
-                            {
-                                Configuration.mls.LogInfo($"{spawnObj.prefabToSpawn.name}");
-                                MonoBehaviours.QuotaAjuster.turret = spawnObj.prefabToSpawn;
+                //switch (eventEnum)
+                //{
+                //    case EventEnum.None:
+                //        Configuration.mls.LogInfo("<color=green>Level event: NONE</color>");
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=green>Level event: NONE</color>");
+                //        break;
+                //    case EventEnum.Turret:
+                //        Configuration.mls.LogInfo("<color=green>Level event: TURRET HELL</color>");
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: TURRET HELL</color>");
+                //        foreach (var spawnObj in newLevel.spawnableMapObjects)
+                //        {
+                //            if (spawnObj.prefabToSpawn.GetComponentInChildren<Turret>() != null)
+                //            {
+                //                Configuration.mls.LogInfo($"{spawnObj.prefabToSpawn.name}");
+                //                MonoBehaviours.QuotaAjuster.turret = spawnObj.prefabToSpawn;
 
-                                spawnObj.numberToSpawn = new AnimationCurve(new[]
-                                {
-                                    new Keyframe(0f, 5f),
-                                    new Keyframe(1f, 20f)
-                                });
-                            }
-                        }
-                        break;
-                    case EventEnum.Landmine:
-                        Configuration.mls.LogInfo("<color=green>Level event: LANDMINE HELL</color>");
-                        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: LANDMINE HELL</color>");
-                        foreach (var spawnObj in newLevel.spawnableMapObjects)
-                        {
-                            if (spawnObj.prefabToSpawn.GetComponentInChildren<Landmine>() != null)
-                            {
-                                MonoBehaviours.QuotaAjuster.landmine = spawnObj.prefabToSpawn;
-                                spawnObj.numberToSpawn = new AnimationCurve(new[]
-                                {
-                                    new Keyframe(0f, 5f),
-                                    new Keyframe(1f, 50f)
-                                });
-                            }
-                        }
-                        break;
-                    case EventEnum.Kleptomania:
-                        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: HOARDER TOWN</color>", -1);
-                        var collection = new List<string>() 
-                            { nameof(DressGirlAI), nameof(FlowermanAI), nameof(CrawlerAI) };
-                        Configuration.mls.LogInfo("Hoarding-ResetEnemiesRarity");
-                        MasterEnviroment.ResetEnemiesRarity(newLevel, collection);
-                        Configuration.mls.LogInfo("GenerateEnemiesEvent");
-                        GenerateEnemiesEvent<HoarderBugAI>(newLevel, currentEventRate);
-                        break;
-                    case EventEnum.Lasso:
-                        Configuration.mls.LogInfo("<color=green>Level event: Lasso </color>");
-                        GenerateEnemiesEvent<SpringManAI>(newLevel, currentEventRate);
-                        break;
-                    case EventEnum.Unfair:
-                        Configuration.mls.LogInfo("<color=green>Level event: Unfair </color>");
-                        break;
-                    case EventEnum.AllSnareFlea:
-                        Configuration.mls.LogInfo("<color=green>Level event: OopsAllSnareFlea </color>");
-                        HUDManager.Instance.AddTextToChatOnServer(
-                            "<color=red>Level event: OOPS, ALL SNARE FLEAS!</color>");
-                        MasterEnviroment.ResetEnemiesRarity(newLevel);
-                        GenerateEnemiesEvent<CentipedeAI>(newLevel, currentEventRate);
-                        break;
-                    case EventEnum.BrackenAndCoil:
-                        Configuration.mls.LogInfo("<color=green>Level event: BrackenAndCoil </color>");
-                        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: BREACKE AND COIL</color>");
-                        MasterEnviroment.ResetEnemiesRarity(newLevel);
-                        GenerateEnemiesEvent<FlowermanAI>(newLevel, currentEventRate);
-                        GenerateEnemiesEvent<SpringManAI>(newLevel, currentEventRate);
-                        break;
-                    case EventEnum.Chaos:
-                        Configuration.mls.LogInfo("<color=green>Level event: Chaos </color>");
-                        HUDManager.Instance.AddTextToChatOnServer(
-                            "<color=red>Level event: THE WORST CHAOS IN THE WORLD</color>");
-                        MasterEnviroment.ResetEnemiesRarity(newLevel);
-                        GenerateEnemiesEvent<CrawlerAI>(newLevel, currentEventRate);
-                        GenerateEnemiesEvent<FlowermanAI>(newLevel, currentEventRate);
-                        GenerateEnemiesEvent<SpringManAI>(newLevel, currentEventRate);
-                        GenerateEnemiesEvent<SandSpiderAI>(newLevel, currentEventRate);
-                        break;
-                    case EventEnum.GoToRend:
-                        Configuration.mls.LogInfo("<color=green>Level event: DOGS DOGS DOGS </color>");
-                        GenerateEnemiesEvent<MouthDogAI>(newLevel, currentEventRate);
-                        break;
-                    case EventEnum.All:
-                        Configuration.mls.LogInfo("<color=green>Level event: ALL </color>");
-                        break;
-                    case EventEnum.Delivery:
-                        Configuration.mls.LogInfo("<color=green>Level event: Delivery </color>");
-                        HUDManager.Instance.AddTextToChatOnServer("<color=green>Level event: DELIVERY!</color>");
-                        int itemCount = Random.Range(3, 6);
-                        for (int i = 0; i < itemCount; i++)
-                        {
-                            int itemIndex = Random.Range(0, 6);
-                            FindObjectOfType<Terminal>().orderedItemsFromTerminal.Add(itemIndex);
-                        }
-                        break;
-                    case EventEnum.ReplaceItems:
-                        Configuration.mls.LogInfo("<color=green>Level event: REPLACE ITEMS </color>");
-                        HUDManager.Instance.AddTextToChatOnServer(
-                            "<color=red>Level event: REPLACE ITEMS</color>");
-                        var terminal = FindObjectOfType<Terminal>();
+                //                spawnObj.numberToSpawn = new AnimationCurve(new[]
+                //                {
+                //                    new Keyframe(0f, 5f),
+                //                    new Keyframe(1f, 20f)
+                //                });
+                //            }
+                //        }
+                //        break;
+                //    case EventEnum.Landmine:
+                //        Configuration.mls.LogInfo("<color=green>Level event: LANDMINE HELL</color>");
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: LANDMINE HELL</color>");
+                //        foreach (var spawnObj in newLevel.spawnableMapObjects)
+                //        {
+                //            if (spawnObj.prefabToSpawn.GetComponentInChildren<Landmine>() != null)
+                //            {
+                //                MonoBehaviours.QuotaAjuster.landmine = spawnObj.prefabToSpawn;
+                //                spawnObj.numberToSpawn = new AnimationCurve(new[]
+                //                {
+                //                    new Keyframe(0f, 5f),
+                //                    new Keyframe(1f, 50f)
+                //                });
+                //            }
+                //        }
+                //        break;
+                //    case EventEnum.Kleptomania:
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: HOARDER TOWN</color>", -1);
+                //        var collection = new List<string>() 
+                //            { nameof(DressGirlAI), nameof(FlowermanAI), nameof(CrawlerAI) };
+                //        Configuration.mls.LogInfo("Hoarding-ResetEnemiesRarity");
+                //        MasterEnviroment.ResetEnemiesRarity(newLevel, collection);
+                //        Configuration.mls.LogInfo("GenerateEnemiesEvent");
+                //        GenerateEnemiesEvent<HoarderBugAI>(newLevel, currentEventRate);
+                //        break;
+                //    case EventEnum.Lasso:
+                //        Configuration.mls.LogInfo("<color=green>Level event: Lasso </color>");
+                //        GenerateEnemiesEvent<SpringManAI>(newLevel, currentEventRate);
+                //        break;
+                //    case EventEnum.Unfair:
+                //        Configuration.mls.LogInfo("<color=green>Level event: Unfair </color>");
+                //        break;
+                //    case EventEnum.AllSnareFlea:
+                //        Configuration.mls.LogInfo("<color=green>Level event: OopsAllSnareFlea </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer(
+                //            "<color=red>Level event: OOPS, ALL SNARE FLEAS!</color>");
+                //        MasterEnviroment.ResetEnemiesRarity(newLevel);
+                //        GenerateEnemiesEvent<CentipedeAI>(newLevel, currentEventRate);
+                //        break;
+                //    case EventEnum.BrackenAndCoil:
+                //        Configuration.mls.LogInfo("<color=green>Level event: BrackenAndCoil </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: BREACKE AND COIL</color>");
+                //        MasterEnviroment.ResetEnemiesRarity(newLevel);
+                //        GenerateEnemiesEvent<FlowermanAI>(newLevel, currentEventRate);
+                //        GenerateEnemiesEvent<SpringManAI>(newLevel, currentEventRate);
+                //        break;
+                //    case EventEnum.Chaos:
+                //        Configuration.mls.LogInfo("<color=green>Level event: Chaos </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer(
+                //            "<color=red>Level event: THE WORST CHAOS IN THE WORLD</color>");
+                //        MasterEnviroment.ResetEnemiesRarity(newLevel);
+                //        GenerateEnemiesEvent<CrawlerAI>(newLevel, currentEventRate);
+                //        GenerateEnemiesEvent<FlowermanAI>(newLevel, currentEventRate);
+                //        GenerateEnemiesEvent<SpringManAI>(newLevel, currentEventRate);
+                //        GenerateEnemiesEvent<SandSpiderAI>(newLevel, currentEventRate);
+                //        break;
+                //    case EventEnum.GoToRend:
+                //        Configuration.mls.LogInfo("<color=green>Level event: DOGS DOGS DOGS </color>");
+                //        GenerateEnemiesEvent<MouthDogAI>(newLevel, currentEventRate);
+                //        break;
+                //    case EventEnum.All:
+                //        Configuration.mls.LogInfo("<color=green>Level event: ALL </color>");
+                //        break;
+                //    case EventEnum.Delivery:
+                //        Configuration.mls.LogInfo("<color=green>Level event: Delivery </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=green>Level event: DELIVERY!</color>");
+                //        int itemCount = Random.Range(3, 6);
+                //        for (int i = 0; i < itemCount; i++)
+                //        {
+                //            int itemIndex = Random.Range(0, 6);
+                //            FindObjectOfType<Terminal>().orderedItemsFromTerminal.Add(itemIndex);
+                //        }
+                //        break;
+                //    case EventEnum.ReplaceItems:
+                //        Configuration.mls.LogInfo("<color=green>Level event: REPLACE ITEMS </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer(
+                //            "<color=red>Level event: REPLACE ITEMS</color>");
+                //        var terminal = FindObjectOfType<Terminal>();
 
-                        int item = 1;
-                        if (terminal.orderedItemsFromTerminal.Count > 1)
-                            item = terminal.orderedItemsFromTerminal.Count;
-                        terminal.orderedItemsFromTerminal.Clear();
-                        for (int i = 0; i < item; i++)
-                        {
-                            terminal.orderedItemsFromTerminal.Add(Random.Range(0, 6));
-                        }
-                        break;
-                    case EventEnum.DidYouSeeHer:
-                        Configuration.mls.LogInfo("<color=green>Level event: SCHIZOPHRENIA </color>");
-                        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: SCHIZOPHRENIA</color>");
-                        MasterEnviroment.ResetEnemiesRarity(newLevel);
-                        GenerateEnemiesEvent<BlobAI>(newLevel, currentEventRate);
-                        GenerateEnemiesEvent<DressGirlAI>(newLevel, currentEventRate);
-                        GenerateEnemiesEvent<HoarderBugAI>(newLevel, currentEventRate);
-                        break;
-                    case EventEnum.ResetEvent:
-                        Configuration.mls.LogInfo("<color=green>Level event: RESET ALL HEAT </color>");
-                        HUDManager.Instance.AddTextToChatOnServer("<color=green>Level event: RESET ALL HEAT</color>");
-                        currentEventRate = 0;
-                        MasterEnviroment.ResetEnemiesRarity(newLevel);
-                        break;
-                    case EventEnum.SecuritySystem:
-                        Configuration.mls.LogInfo("<color=green>Level event: SpawnTurret </color>");
-                        HUDManager.Instance.AddTextToChatOnServer(
-                            "<color=red>Level event: THE COMPANIES AUTOMATED DEFENSE SYSTEM</color>");
-                        break;
-                    default:
-                        break;
-                }
+                //        int item = 1;
+                //        if (terminal.orderedItemsFromTerminal.Count > 1)
+                //            item = terminal.orderedItemsFromTerminal.Count;
+                //        terminal.orderedItemsFromTerminal.Clear();
+                //        for (int i = 0; i < item; i++)
+                //        {
+                //            terminal.orderedItemsFromTerminal.Add(Random.Range(0, 6));
+                //        }
+                //        break;
+                //    case EventEnum.DidYouSeeHer:
+                //        Configuration.mls.LogInfo("<color=green>Level event: SCHIZOPHRENIA </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=red>Level event: SCHIZOPHRENIA</color>");
+                //        MasterEnviroment.ResetEnemiesRarity(newLevel);
+                //        GenerateEnemiesEvent<BlobAI>(newLevel, currentEventRate);
+                //        GenerateEnemiesEvent<DressGirlAI>(newLevel, currentEventRate);
+                //        GenerateEnemiesEvent<HoarderBugAI>(newLevel, currentEventRate);
+                //        break;
+                //    case EventEnum.ResetEvent:
+                //        Configuration.mls.LogInfo("<color=green>Level event: RESET ALL HEAT </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer("<color=green>Level event: RESET ALL HEAT</color>");
+                //        currentEventRate = 0;
+                //        MasterEnviroment.ResetEnemiesRarity(newLevel);
+                //        break;
+                //    case EventEnum.SecuritySystem:
+                //        Configuration.mls.LogInfo("<color=green>Level event: SpawnTurret </color>");
+                //        HUDManager.Instance.AddTextToChatOnServer(
+                //            "<color=red>Level event: THE COMPANIES AUTOMATED DEFENSE SYSTEM</color>");
+                //        break;
+                //    default:
+                //        break;
+                //}
                 
                 Configuration.RarityLevelValue.TryGetValue(newLevel, out currentEventRate);
 
@@ -236,6 +237,7 @@ namespace BrutalEvent
                 newLevel = _masterEnviroment.SetupEnemyChance(newLevel, currentEventRate);
 
                 Configuration.RarityLevelValue[newLevel] = Mathf.Clamp(currentEventRate + 15f, 0f, _config.MaxRate.Value);
+
                 if (!newLevel.sceneName.Contains("CompanyBuilding"))
                 {
                     var terminalCredits = FindObjectOfType<Terminal>();
@@ -249,7 +251,6 @@ namespace BrutalEvent
             }
             return true;
         }
-
 
         public static void ShowLogo()
         {
