@@ -12,7 +12,7 @@ namespace BrutalEvent.Services.Events
 
         public override LevelEvent CreateEvent() => new BlobApocalypsis();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigValues configs, float currentRate)
         {
             _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
             _enviroment.GenerateEnemiesEvent<BlobAI>(newLevel, currentRate, 3.0f);

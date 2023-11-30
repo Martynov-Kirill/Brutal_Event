@@ -28,7 +28,7 @@ namespace BrutalEvent.Services.Events
             return new AllEvent();
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigValues configs, float currentRate)
         {
             foreach (var gameEvent in Enum.GetValues(typeof(EventEnum)))
             {

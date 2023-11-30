@@ -17,7 +17,7 @@ namespace BrutalEvent.Services.Events
             return new KleptomaniaEvent();
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigValues configs, float currentRate)
         {
             _enviroment.SetupEnemyChance(newLevel, currentRate, configs.Multiplier.Value);
             _enviroment.GenerateEnemiesEvent<HoarderBugAI>(newLevel,currentRate, 2.5f);

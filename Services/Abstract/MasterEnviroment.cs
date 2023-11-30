@@ -103,7 +103,7 @@ namespace BrutalEvent.Services.Abstract
             }
         }
 
-        public void SetupRateLimit(SelectableLevel currentLevel, EventEnum eventEnum, Config config)
+        public void SetupRateLimit(SelectableLevel currentLevel, EventEnum eventEnum, ConfigValues config)
         {
             // Инициализация RateLevelValue для текущего уровня, если это еще не сделано
             if (!Configuration.RarityLevelValue.ContainsKey(currentLevel))
@@ -150,7 +150,7 @@ namespace BrutalEvent.Services.Abstract
             }
         }
 
-        public SelectableLevel SetupLevelScrap(SelectableLevel newLevel, Config config, float multiplier = 1f)
+        public SelectableLevel SetupLevelScrap(SelectableLevel newLevel, ConfigValues config, float multiplier = 1f)
         {
             if (!Configuration.levelsModified.Contains(newLevel))
             {
@@ -162,7 +162,7 @@ namespace BrutalEvent.Services.Abstract
             return newLevel;
         }
 
-        public void ModifyDaySettings(SelectableLevel level, Config config, float multiplier = 1f)
+        public void ModifyDaySettings(SelectableLevel level, ConfigValues config, float multiplier = 1f)
         {
             level.maxScrap += (int)(AdditionalMaxScrap * multiplier);
             level.maxTotalScrapValue

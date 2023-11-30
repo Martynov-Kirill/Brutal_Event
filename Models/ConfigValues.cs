@@ -2,7 +2,7 @@
 
 namespace BrutalEvent.Models
 {
-    public class Config
+    public class ConfigValues
     {
         public ConfigEntry<float> MinScrap { get; set; }
         public ConfigEntry<float> MaxScrap { get; set; }

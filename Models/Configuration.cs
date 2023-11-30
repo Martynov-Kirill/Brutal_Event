@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using BepInEx.Logging;
-using HarmonyLib;
-using UnityEngine;
 
 namespace BrutalEvent.Models
 {
@@ -20,12 +18,6 @@ namespace BrutalEvent.Models
         public static Dictionary<SelectableLevel, List<SpawnableEnemyWithRarity>> OriginalEnemiesRarities 
         { get; set; } = new Dictionary<SelectableLevel, List<SpawnableEnemyWithRarity>>();
 
-        public static Dictionary<SpawnableEnemyWithRarity, int> enemyRaritys { get; set; } =
-            new Dictionary<SpawnableEnemyWithRarity, int>();
-
-        public static Dictionary<SpawnableEnemyWithRarity, AnimationCurve> enemyPropCurves { get; set; } =
-            new Dictionary<SpawnableEnemyWithRarity, AnimationCurve>();
-       
         public static ManualLogSource mls { get; set; }
     }
 }

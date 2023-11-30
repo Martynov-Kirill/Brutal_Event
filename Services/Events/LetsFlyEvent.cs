@@ -13,7 +13,7 @@ namespace BrutalEvent.Services.Events
 
         public override LevelEvent CreateEvent() => new LetsFlyEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigValues configs, float currentRate)
         {
             int item = 9;
             Terminal val = Object.FindObjectOfType<Terminal>();

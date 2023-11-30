@@ -24,7 +24,7 @@ namespace BrutalEvent
         private const string VersionString = "1.0.0";
         private Harmony _harmony = new Harmony("BetterBrutalEvent");
 
-        public static Config _config;
+        public static ConfigValues _config;
         private static EventFactory _eventFactory;
         private static MasterEnviroment _masterEnviroment;
 

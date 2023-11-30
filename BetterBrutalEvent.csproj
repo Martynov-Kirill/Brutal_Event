@@ -75,7 +75,7 @@
     <Compile Include="Enums\GameEvent.cs" />
     <Compile Include="Common\LoadConfig.cs" />
     <Compile Include="QuotaAjuster.cs" />
-    <Compile Include="Models\Config.cs" />
+    <Compile Include="Models\ConfigValues.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Services\Abstract\MasterEnviroment.cs" />

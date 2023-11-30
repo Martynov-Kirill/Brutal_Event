@@ -20,7 +20,7 @@ namespace BrutalEvent.Services.Abstract
         
         public abstract LevelEvent CreateEvent();
 
-        public abstract void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate);
+        public abstract void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigValues configs, float currentRate);
 
         public virtual void OnLoadNewLevelCleanup(ref SelectableLevel newLevel)
         { }

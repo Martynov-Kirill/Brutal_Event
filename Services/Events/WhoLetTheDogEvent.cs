@@ -13,7 +13,7 @@ namespace BrutalEvent.Services.Events
 
         public override LevelEvent CreateEvent() => new WhoLetTheDogEvent();
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel, Config configs, float currentRate)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigValues configs, float currentRate)
         {
             var spawnableMapObjects = newLevel.spawnableMapObjects;
 

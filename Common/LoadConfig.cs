@@ -5,9 +5,9 @@ namespace BrutalEvent.Common
     public class LoadConfig
     {
         private string _sectionName = "BrutalEventSettings";
-        public Config BindConfigSettings()
+        public ConfigValues BindConfigSettings()
         {
-            var config = new Config();
+            var config = new ConfigValues();
             config.MinScrap = Plugin.Instance.Config
                 .Bind(_sectionName, "MinScrap", 250f, "MinScrap");
             config.MaxScrap = Plugin.Instance.Config
