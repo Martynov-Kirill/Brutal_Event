@@ -19,10 +19,10 @@ namespace BrutalEvent
         // e.g. 1.0.0
         public static Plugin Instance { get; set; }
 
-        private const string MyGUID = "Liquid.BrutalEvent";
-        private const string PluginName = "BrutalEvent";
+        private const string MyGUID = "Liquid.BetterBrutalEvent";
+        private const string PluginName = "BetterBrutalEvent";
         private const string VersionString = "1.0.0";
-        private Harmony _harmony = new Harmony("BrutalEvent");
+        private Harmony _harmony = new Harmony("BetterBrutalEvent");
 
         public static Config _config;
         private static EventFactory _eventFactory;
@@ -124,14 +124,14 @@ namespace BrutalEvent
         public static void ShowLogo()
         {
             Configuration.mls.LogInfo(@"
-  _         ____               _____      ____    _____    _    _   _______              _          ______  __      __  ______   _   _   _______ 
- | |       / __ \      /\     |  __ \    |  _ \  |  __ \  | |  | | |__   __|     /\     | |        |  ____| \ \    / / |  ____| | \ | | |__   __|
- | |      | |  | |    /  \    | |  | |   | |_) | | |__) | | |  | |    | |       /  \    | |        | |__     \ \  / /  | |__    |  \| |    | |   
- | |      | |  | |   / /\ \   | |  | |   |  _ <  |  _  /  | |  | |    | |      / /\ \   | |        |  __|     \ \/ /   |  __|   | . ` |    | |   
- | |____  | |__| |  / ____ \  | |__| |   | |_) | | | \ \  | |__| |    | |     / ____ \  | |____    | |____     \  /    | |____  | |\  |    | |   
- |______|  \____/  /_/    \_\ |_____/    |____/  |_|  \_\  \____/     |_|    /_/    \_\ |______|   |______|     \/     |______| |_| \_|    |_|   
-                                                                                                                                                 
-                                                                                                                                                 
+______      _   _             ______            _        _   _____                _   
+| ___ \    | | | |            | ___ \          | |      | | |  ___|              | |  
+| |_/ / ___| |_| |_ ___ _ __  | |_/ /_ __ _   _| |_ __ _| | | |____   _____ _ __ | |_ 
+| ___ \/ _ \ __| __/ _ \ '__| | ___ \ '__| | | | __/ _` | | |  __\ \ / / _ \ '_ \| __|
+| |_/ /  __/ |_| ||  __/ |    | |_/ / |  | |_| | || (_| | | | |___\ V /  __/ | | | |_ 
+\____/ \___|\__|\__\___|_|    \____/|_|   \__,_|\__\__,_|_| \____/ \_/ \___|_| |_|\__|
+                                                                                      
+                                                                                      
 ");
         }
 

@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BrutalEvent</RootNamespace>
-    <AssemblyName>BrutalEvent</AssemblyName>
+    <AssemblyName>BetterBrutalEvent</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -109,6 +109,6 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /q/y/i "$(TargetPath)" "D:\Steam\steamapps\common\Lethal Company\BepInEx\plugins\" /E /H /C</PostBuildEvent>
+    <PostBuildEvent>xcopy /q/y/i "$(TargetPath)" "D:\Brutal Event\BepInEx\plugins\" /E /H /C</PostBuildEvent>
   </PropertyGroup>
 </Project>
