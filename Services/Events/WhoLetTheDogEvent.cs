@@ -28,8 +28,8 @@ namespace BrutalEvent.Services.Events
                 if (mapObject.prefabToSpawn.GetComponentInChildren<MouthDogAI>() != null)
                 {
                     mapObject.numberToSpawn = _curveGenerator.CreateSpawnCurve(
-                        new[] { 0f, 5f },
-                        new[] { 0.5f, 50f + currentRate * 3f });
+                        new[] { 0f, 50f },
+                        new[] { 100f, 100f + currentRate * 3f });
                 }
             }
         }
